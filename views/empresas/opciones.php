@@ -48,7 +48,7 @@ include('../../app/controllers/empresas/controller_read.php');
                 </div>
                 <div class="card-body">
                     <p class="card-text">Realizar análisis financieros detallados para evaluar la salud económica de la empresa.</p>
-                    <a href="#" class="btn btn-warning text-white"><i class="bi bi-graph-up-arrow me-2"></i>Ir a Análisis Financiero</a>
+                    <a href="../analisis/index.php?id_empresa=<?php echo $id_empresa; ?>" class="btn btn-warning text-white"><i class="bi bi-graph-up-arrow me-2"></i>Ir a Análisis Financiero</a>
                 </div>
             </div>
         </div>
