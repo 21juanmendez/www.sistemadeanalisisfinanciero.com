@@ -48,16 +48,10 @@ $detalles = $query_detalles->fetchAll();
     <br><br>
     <!-- Título con estilo de AdminLTE -->
     <div class="card card-info">
-        <div class="card-header d-flex flex-column justify-content-center" style="background-color: #17a2b8; text-align: center;">
+        <div class="card-header d-flex justify-content-center" style="background-color: #17a2b8;">
             <h1 class="card-title" style="font-size: 2rem; font-weight: bold; color: white;">
                 <i class="fas fa-balance-scale"></i>
-                <?php echo htmlspecialchars($estado_financiero['tipo_estado']); ?>
-            </h1>
-            <h1 class="card-title" style="font-size: 2rem; font-weight: bold; color: white;">
-                <?php echo htmlspecialchars($nombre_empresa); ?>
-            </h1>
-            <h1 class="card-title" style="font-size: 2rem; font-weight: bold; color: white;">
-                Hasta el 31 de diciembre del <?php echo htmlspecialchars($estado_financiero['anio']); ?>
+                <?php echo htmlspecialchars($estado_financiero['tipo_estado']); ?> - Año <?php echo htmlspecialchars($estado_financiero['anio']); ?>
             </h1>
         </div>
         <div class="card-body">
