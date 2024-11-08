@@ -52,6 +52,21 @@ include('../../app/controllers/empresas/controller_read.php');
                 </div>
             </div>
         </div>
+        <!-- Card: Análisis Financiero -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-warning shadow">
+                <div class="card-header bg-info text-white">
+                    <h5 class="card-title m-0"><i class="bi bi-bar-chart-fill me-2"></i>Análisis Financiero</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Visualiza los principales ratios financieros de la empresa seleccionada.</p>
+                    <a href="../ratios/index.php?id_empresa=<?php echo $id_empresa; ?>" class="btn btn-info text-white">
+                        <i class="bi bi-graph-up-arrow me-2"></i> Ver Ratios
+                    </a>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
