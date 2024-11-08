@@ -506,7 +506,7 @@ $result_cuentas = $query_cuentas->fetchAll(PDO::FETCH_ASSOC);
         // Validar saldo
         const saldoInput = document.querySelector('input[name="saldo"]');
         const errorSaldo = document.getElementById('errorSaldo');
-        if (saldoInput.value === "" || parseFloat(saldoInput.value) < 0) {
+        if (saldoInput.value === "") {
             errorSaldo.classList.remove("d-none");
             isValid = false;
         } else {

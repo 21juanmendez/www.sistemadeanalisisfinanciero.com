@@ -16,7 +16,7 @@ $query_estado->execute();
 $tipo_estado = $query_estado->fetchColumn();
 
 // Validación para "Estado de Resultados" (sin tipo de movimiento)
-if ($id_estado && $id_cuenta && $saldo !== false && $saldo >= 0) {
+if ($id_estado && $id_cuenta && $saldo !== false) {
     // Recuperar el nombre de la cuenta directamente de la base de datos
     $sql_cuenta = "SELECT nombre FROM cuentas WHERE id_cuenta = :id_cuenta";
     $query_cuenta = $pdo->prepare($sql_cuenta);
