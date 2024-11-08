@@ -24,11 +24,18 @@ $utilidadNeta = $estadoDatos['utilidadNeta'];
 
     <!-- Título de la vista de Estado de Resultados -->
     <div class="card card-info mb-3">
-        <div class="card-header d-flex justify-content-center" style="background-color: #17a2b8;">
-            <h1 class="card-title text-white" style="font-size: 2rem; font-weight: bold;">
-                <i class="fas fa-chart-line"></i> Estado de Resultados - Año <?php echo htmlspecialchars($anio); ?>
-            </h1>
-        </div>
+    <div class="card-header d-flex flex-column justify-content-center" style="background-color: #17a2b8; text-align: center;">
+                <h1 class="card-title" style="font-size: 2rem; font-weight: bold; color: white;">
+                    <i class="fas fa-balance-scale"></i>
+                    <?php echo htmlspecialchars($estado_financiero['tipo_estado']); ?>
+                </h1>
+                <h1 class="card-title" style="font-size: 2rem; font-weight: bold; color: white;">
+                    <?php echo htmlspecialchars($nombre_empresa); ?>
+                </h1>
+                <h1 class="card-title" style="font-size: 2rem; font-weight: bold; color: white;">
+                    Hasta el 31 de diciembre del <?php echo htmlspecialchars($estado_financiero['anio']); ?>
+                </h1>
+            </div>
         <div class="card-body">
             <!-- Tabla para mostrar el Estado de Resultados -->
             <table class="table table-hover table-bordered table-striped">
