@@ -44,6 +44,13 @@ foreach ($utilidades as $anio => $data) {
     $margenNeto[$anio] = $ingresos_operativos > 0 ? $data['utilidad_neta'] / $ingresos_operativos : null;
 }
 
+// Calcula el Índice de Eficiencia Operativa en base al costo y gasto de operación y los ingresos operativos
+$indiceEficienciaOperativa = [];
+foreach ($utilidades as $anio => $data) {
+    $ingresos_operativos = $data['ingresos_operacion'];
+    $costos_gastos_operacion = $data['costos_gastos_operacion'];
+    $indiceEficienciaOperativa[$anio] = $ingresos_operativos > 0 ? $costos_gastos_operacion / $ingresos_operativos : null;
+}
 // Organiza los datos para la tabla
 $anios = array_keys($liquidezCorriente);
 $ratiosData = [
@@ -56,7 +63,8 @@ $ratiosData = [
     'Razón de Endeudamiento Patrimonial' => array_column($razonEndeudamientoPatrimonial, 'razon_endeudamiento_patrimonial'),
     'Rentabilidad sobre Activos (ROA)' => $roa, // Añadir el nuevo ratio de ROA
     'Rentabilidad sobre Patrimonio (ROE)' => $roe, // Ratio de ROE
-    'Margen Neto' => $margenNeto // Añadir el nuevo ratio de Margen Neto
+    'Margen Neto' => $margenNeto, // Añadir el nuevo ratio de Margen Neto
+    'Índice de Eficiencia Operativa' => $indiceEficienciaOperativa // Añadir el nuevo ratio de Índice de Eficiencia Operativa
 ];
 ?>
 
@@ -106,7 +114,7 @@ $ratiosData = [
                             </td>
                             <?php foreach ($valores as $valor): ?>
                                 <td>
-                                    <center><?php echo is_null($valor) ? 'N/A' : number_format($valor, 2); ?></center>
+                                    <center><?php echo is_null($valor) ? 'N/A' : number_format($valor, 4); ?></center>
                                 </td>
                             <?php endforeach; ?>
                             <!-- Calcular y mostrar el promedio de cada ratio -->
@@ -116,7 +124,7 @@ $ratiosData = [
                                         <?php
                                         $filteredValues = array_filter($valores, fn($v) => $v !== null);
                                         $promedio = count($filteredValues) > 0 ? array_sum($filteredValues) / count($filteredValues) : null;
-                                        echo is_null($promedio) ? 'N/A' : number_format($promedio, 2);
+                                        echo is_null($promedio) ? 'N/A' : number_format($promedio, 4);
                                         ?>
                                     </b>
                                 </center>

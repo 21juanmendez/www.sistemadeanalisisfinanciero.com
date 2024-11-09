@@ -290,8 +290,8 @@ class RatiosController
             $utilidadesPorAno[$resultado['anio']] = [
                 'utilidad_operacion' => $utilidad_operacion,
                 'utilidad_neta' => $utilidad_neta,
-                'ingresos_operacion' => $ingresos_operacion // Asegurarse de que ingresos_operacion esté disponible
-                
+                'ingresos_operacion' => $ingresos_operacion, // Asegurarse de que ingresos_operacion esté disponible
+                'costos_gastos_operacion' => $costos_gastos_operacion // Asegurarse de que costos_gastos_operacion esté disponible
             ];
         }
 

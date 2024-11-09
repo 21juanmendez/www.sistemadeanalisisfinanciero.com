@@ -22,26 +22,72 @@ $i=0;//centinela para el id de la empresa
     <br>
     <div class="row">
         <?php foreach ($empresas as $empresa) : ?>
-            <div class="col-3">
+            <div class="col-3 mb-4">
                 <?php
-                $i++;//incrementamos el id de la empresa
-                // Selecciona un color aleatorio del array de colores
+                $i++;
                 $color = $colores[array_rand($colores)];
                 ?>
-                <div class="small-box <?php echo $color; ?>">
+                <div class="small-box <?php echo $color; ?> shadow-lg rounded">
                     <div class="inner">
-                        <h3><?php echo $i // Mostrar ID de la empresa ?></h3>
-                        <p><b><?php echo $empresa['nombre_empresa']; // Mostrar nombre de la empresa ?></b></p>
+                        <h3><?php echo $i; ?></h3>
+                        <p><b><?php echo $empresa['nombre_empresa']; ?></b></p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-building"></i>
                     </div>
-                    <a href="<?php echo $VIEWS?>/empresas/opciones.php?id_empresa=<?php echo $empresa['id_empresa']?>" class="small-box-footer">Más informacion <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="<?php echo $VIEWS?>/empresas/opciones.php?id_empresa=<?php echo $empresa['id_empresa']?>" class="small-box-footer">
+                        Más información <i class="fas fa-arrow-circle-right"></i>
+                    </a>
                 </div>
             </div>
         <?php endforeach; ?>
     </div>
 </div>
+
+<div class="container">
+    <canvas id="myChart" width="500" height="150"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chartData = {
+            labels: <?php echo json_encode(array_column($empresas, 'nombre_empresa')); ?>,
+            datasets: [{
+                label: 'Cantidad de Cuentas por Empresa',
+                data: <?php echo json_encode(array_column($empresas, 'cantidad_cuentas')); ?>,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 2
+            }]
+        };
+
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: chartData,
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Cantidad de Cuentas'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Empresas'
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+
 
 <?php
 include('layout/parte2.php');
