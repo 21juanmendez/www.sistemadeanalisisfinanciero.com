@@ -4,25 +4,35 @@ include('../../app/controllers/empresas/controller_read.php');
 ?>
 
 <div class="container-fluid">
-    <a href="index.php" class="btn btn-secondary">
-        <i class="bi bi-arrow-left"></i> <b>Regresar</b>
-    </a>
-    <div class="text-center">
-        <h1><b><?php echo $nombre_empresa; ?></b></h1>
-        <p class="text-muted">Gestiona y analiza toda la información financiera de la empresa</p>
+    <div class="row">
+        <div class="col-md-4">
+            <a href="index.php" class="btn btn-secondary mb-4">
+                <i class="bi bi-arrow-left"></i> Regresar
+            </a>
+        </div>
+        <div class="col-md-4">
+            <div class="text-center">
+                <h2><b><i class="bi bi-building-fill-check"></i><?php echo $nombre_empresa; ?></b></h2>
+                <p class="text-muted">Gestión y análisis financiero</p>
+            </div>
+            <br>
+        </div>
+        <div class="col-md-4"></div>
     </div>
-    <br>
 
     <div class="row">
         <!-- Card: Gestionar Catálogo -->
         <div class="col-md-4 mb-4">
             <div class="card h-100 border-primary shadow">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="card-title m-0"><i class="bi bi-folder-fill me-2"></i>Gestionar Catálogo</h5>
+                <div class="card-header bg-primary text-white text-center">
+                    <i class="bi bi-folder-fill" style="font-size: 2rem;"></i>
+                    <h5 class="card-title m-0 mt-2">Catálogo</h5>
                 </div>
-                <div class="card-body">
-                    <p class="card-text">Registrar y gestionar cuentas para la empresa seleccionada.</p>
-                    <a href="../catalogo/index.php?id_empresa=<?php echo $id_empresa; ?>" class="btn btn-primary"><i class="bi bi-journal-plus me-2"></i>Ir a Catálogo</a>
+                <div class="card-body text-center">
+                    <p class="card-text">Organiza y gestiona las cuentas.</p>
+                    <a href="../catalogo/index.php?id_empresa=<?php echo $id_empresa; ?>" class="btn btn-primary">
+                        <i class="bi bi-arrow-right-circle"></i> Abrir
+                    </a>
                 </div>
             </div>
         </div>
@@ -30,30 +40,61 @@ include('../../app/controllers/empresas/controller_read.php');
         <!-- Card: Registrar Estados Financieros -->
         <div class="col-md-4 mb-4">
             <div class="card h-100 border-success shadow">
-                <div class="card-header bg-success text-white">
-                    <h5 class="card-title m-0"><i class="bi bi-file-earmark-bar-graph-fill me-2"></i>Registrar Estados Financieros</h5>
+                <div class="card-header bg-success text-white text-center">
+                    <i class="bi bi-file-earmark-bar-graph-fill" style="font-size: 2rem;"></i>
+                    <h5 class="card-title m-0 mt-2">Estados Financieros</h5>
                 </div>
-                <div class="card-body">
-                    <p class="card-text">Registrar estados financieros como Balance General y Estado de Resultados.</p>
-                    <a href="../estados/index.php?id_empresa=<?php echo $id_empresa;?>" class="btn btn-success"><i class="bi bi-plus-circle me-2"></i>Agregar Estado Financiero</a>
+                <div class="card-body text-center">
+                    <p class="card-text">Registra balances y resultados.</p>
+                    <a href="../estados/index.php?id_empresa=<?php echo $id_empresa; ?>" class="btn btn-success">
+                        <i class="bi bi-arrow-right-circle"></i> Abrir
+                    </a>
                 </div>
             </div>
         </div>
 
-        <!-- Card: Análisis Financiero -->
+        <!-- Card: Análisis Completo (incluye Ratios y Análisis Financiero) -->
         <div class="col-md-4 mb-4">
             <div class="card h-100 border-warning shadow">
-                <div class="card-header bg-warning text-white">
-                    <h5 class="card-title m-0"><i class="bi bi-bar-chart-fill me-2"></i>Análisis Financiero</h5>
+                <div class="card-header bg-warning text-white text-center">
+                    <i class="bi bi-bar-chart-fill" style="font-size: 2rem;"></i>
+                    <h5 class="card-title m-0 mt-2">Análisis Completo</h5>
                 </div>
-                <div class="card-body">
-                    <p class="card-text">Realizar análisis financieros detallados para evaluar la salud económica de la empresa.</p>
-                    <a href="../analisis/index.php?id_empresa=<?php echo $id_empresa; ?>" class="btn btn-warning text-white"><i class="bi bi-graph-up-arrow me-2"></i>Ir a Análisis Financiero</a>
+                <div class="card-body text-center">
+                    <p class="card-text">Evalúa ratios y salud financiera.</p>
+                    <button onclick="seleccionarVista()" class="btn btn-warning text-white">
+                        <i class="bi bi-arrow-right-circle"></i> Abrir
+                    </button>
                 </div>
             </div>
         </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            function seleccionarVista() {
+                Swal.fire({
+                    title: 'Selecciona una vista',
+                    text: "¿A qué sección deseas ir?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ratios Financieros',
+                    cancelButtonText: 'Análisis Financiero',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Redirigir a la vista de Ratios Financieros
+                        window.location.href = "../ratios/index.php?id_empresa=<?php echo $id_empresa; ?>";
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        // Redirigir a la vista de Análisis Financiero Completo
+                        window.location.href = "../analisis/index.php?id_empresa=<?php echo $id_empresa; ?>";
+                    }
+                });
+            }
+        </script>
+
     </div>
 </div>
+
 
 <?php
 include('../layout/parte2.php');
