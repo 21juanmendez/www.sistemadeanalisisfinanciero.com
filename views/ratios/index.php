@@ -15,6 +15,8 @@ if (!$id_empresa) {
 // Instancia el controlador de ratios financieros
 $ratiosController = new RatiosController($pdo);
 
+// Calcula y guarda los ratios en la base de datos para todos los años
+$ratiosController->calcularYGuardarRatiosPorAno($id_empresa);
 // Obtiene los ratios
 $liquidezCorriente = $ratiosController->calcularLiquidezCorrientePorAno($id_empresa);
 $pruebaAcida = $ratiosController->calcularPruebaAcidaPorAno($id_empresa);
