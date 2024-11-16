@@ -5,13 +5,6 @@ include('mensaje.php');
 // Traemos los datos de las empresas para mostrarlos en el dashboard
 include('../app/controllers/empresas/controller_empresas.php');
 
-// Si no existe la sesión de admin te redirige al login
-if (!isset($_SESSION['admin'])) {
-    $_SESSION['icono'] = 'error';
-    $_SESSION['mensaje_permiso'] = 'No tiene los permisos necesarios';
-    header('Location:' . $URL . '/index.php');
-}
-
 // Array de colores para las tarjetas
 $colores = ['bg-success', 'bg-info', 'bg-warning', 'bg-danger', 'bg-primary', 'bg-secondary'];
 $i=0;//centinela para el id de la empresa

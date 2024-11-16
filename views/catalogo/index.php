@@ -25,10 +25,15 @@ $result_clasificaciones = $pdo->query($sql_clasificaciones);
                         <i class="bi bi-arrow-left"></i> <b>Regresar</b>
                     </a>
 
-                    <!-- Botón para abrir el modal -->
-                    <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registrarCuentaModal">
-                        <i class="bi bi-plus-lg"></i> <b>Agregar Cuenta</b>
-                    </a>
+                    <?php
+                    if (isset($_SESSION['admin'])) { ?>
+                        <!-- Botón para abrir el modal -->
+                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registrarCuentaModal">
+                            <i class="bi bi-plus-lg"></i> <b>Agregar Cuenta</b>
+                        </a>
+                    <?php
+                    }
+                    ?>
 
                     <!-- Modal -->
                     <div class="modal fade" id="registrarCuentaModal" tabindex="-1" aria-labelledby="registrarCuentaModalLabel" aria-hidden="true">
@@ -256,51 +261,61 @@ $result_clasificaciones = $pdo->query($sql_clasificaciones);
                                             </td>
                                             <td>
                                                 <center>
-                                                    <a href="<?php echo $VIEWS ?>/catalogo/show.php?id_empresa=<?php echo $id_empresa ?>&id_cuenta=<?php echo $cuenta['id_cuenta'] ?>" class="btn btn-info">
-                                                        <i class="bi bi-eye"></i>
-                                                    </a>
+                                                    <?php
+                                                    if (isset($_SESSION['admin'])) { ?>
+                                                        <a href="<?php echo $VIEWS ?>/catalogo/show.php?id_empresa=<?php echo $id_empresa ?>&id_cuenta=<?php echo $cuenta['id_cuenta'] ?>" class="btn btn-info">
+                                                            <i class="bi bi-eye"></i>
+                                                        </a>
 
-                                                    <a href="<?php echo $VIEWS ?>/catalogo/update.php?id_empresa=<?php echo $id_empresa ?>&id_cuenta=<?php echo $cuenta['id_cuenta'] ?>" class="btn btn-warning">
-                                                        <i class="bi bi-pencil-square"></i>
-                                                    </a>
-                                                    <!-- Botón para eliminar la cuenta -->
-                                                    <a href="#" class="btn btn-danger" onclick="confirmDeleteCuenta(<?php echo $cuenta['id_cuenta']; ?>, <?php echo $id_empresa; ?>)">
-                                                        <i class="bi bi-trash-fill"></i>
-                                                    </a>
+                                                        <a href="<?php echo $VIEWS ?>/catalogo/update.php?id_empresa=<?php echo $id_empresa ?>&id_cuenta=<?php echo $cuenta['id_cuenta'] ?>" class="btn btn-warning">
+                                                            <i class="bi bi-pencil-square"></i>
+                                                        </a>
+                                                        <!-- Botón para eliminar la cuenta -->
+                                                        <a href="#" class="btn btn-danger" onclick="confirmDeleteCuenta(<?php echo $cuenta['id_cuenta']; ?>, <?php echo $id_empresa; ?>)">
+                                                            <i class="bi bi-trash-fill"></i>
+                                                        </a>
 
-                                                    <!-- Script para mostrar alerta de confirmación al eliminar -->
-                                                    <script>
-                                                        const swalWithBootstrapButtonsCuenta = Swal.mixin({
-                                                            customClass: {
-                                                                confirmButton: "btn btn-success me-2", // Botón rojo para confirmar
-                                                                cancelButton: "btn btn-danger" // Botón gris para cancelar
-                                                            },
-                                                            buttonsStyling: false
-                                                        });
-
-                                                        function confirmDeleteCuenta(id_cuenta, id_empresa) {
-                                                            swalWithBootstrapButtonsCuenta.fire({
-                                                                title: '¿Estás seguro?',
-                                                                text: "¡No podrás revertir esto!",
-                                                                icon: 'warning',
-                                                                showCancelButton: true,
-                                                                confirmButtonText: 'Sí, eliminarla!',
-                                                                cancelButtonText: 'No, cancelar!',
-                                                                reverseButtons: false
-                                                            }).then((result) => {
-                                                                if (result.isConfirmed) {
-                                                                    // Redirige al controlador de eliminación de la cuenta si se confirma
-                                                                    window.location.href = '<?php echo $URL; ?>/app/controllers/catalogo/controller_delete.php?id_cuenta=' + id_cuenta + '&id_empresa=' + id_empresa;
-                                                                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                                                    swalWithBootstrapButtonsCuenta.fire({
-                                                                        title: 'Cancelado',
-                                                                        text: 'La cuenta está segura :)',
-                                                                        icon: 'error'
-                                                                    });
-                                                                }
+                                                        <!-- Script para mostrar alerta de confirmación al eliminar -->
+                                                        <script>
+                                                            const swalWithBootstrapButtonsCuenta = Swal.mixin({
+                                                                customClass: {
+                                                                    confirmButton: "btn btn-success me-2", // Botón rojo para confirmar
+                                                                    cancelButton: "btn btn-danger" // Botón gris para cancelar
+                                                                },
+                                                                buttonsStyling: false
                                                             });
-                                                        }
-                                                    </script>
+
+                                                            function confirmDeleteCuenta(id_cuenta, id_empresa) {
+                                                                swalWithBootstrapButtonsCuenta.fire({
+                                                                    title: '¿Estás seguro?',
+                                                                    text: "¡No podrás revertir esto!",
+                                                                    icon: 'warning',
+                                                                    showCancelButton: true,
+                                                                    confirmButtonText: 'Sí, eliminarla!',
+                                                                    cancelButtonText: 'No, cancelar!',
+                                                                    reverseButtons: false
+                                                                }).then((result) => {
+                                                                    if (result.isConfirmed) {
+                                                                        // Redirige al controlador de eliminación de la cuenta si se confirma
+                                                                        window.location.href = '<?php echo $URL; ?>/app/controllers/catalogo/controller_delete.php?id_cuenta=' + id_cuenta + '&id_empresa=' + id_empresa;
+                                                                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                                                        swalWithBootstrapButtonsCuenta.fire({
+                                                                            title: 'Cancelado',
+                                                                            text: 'La cuenta está segura :)',
+                                                                            icon: 'error'
+                                                                        });
+                                                                    }
+                                                                });
+                                                            }
+                                                        </script>
+                                                    <?php
+                                                    } else { ?>
+                                                        <a href="<?php echo $VIEWS ?>/catalogo/show.php?id_empresa=<?php echo $id_empresa ?>&id_cuenta=<?php echo $cuenta['id_cuenta'] ?>" class="btn btn-info">
+                                                            <i class="bi bi-eye"></i>
+                                                        </a>
+                                                    <?php
+                                                    }
+                                                    ?>
                                                 </center>
                                             </td>
                                         </tr>
