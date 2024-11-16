@@ -15,6 +15,8 @@ if (!$id_empresa) {
 // Instancia el controlador de ratios financieros
 $ratiosController = new RatiosController($pdo);
 
+// Calcula y guarda los ratios en la base de datos para todos los años
+$ratiosController->calcularYGuardarRatiosPorAno($id_empresa);
 // Obtiene los ratios
 $liquidezCorriente = $ratiosController->calcularLiquidezCorrientePorAno($id_empresa);
 $pruebaAcida = $ratiosController->calcularPruebaAcidaPorAno($id_empresa);
@@ -85,7 +87,7 @@ $ratiosData = [
         </div>
         <div class="card-body">
             <!-- Tabla para mostrar los Ratios Financieros -->
-            <table class="table table-hover table-bordered table-striped">
+            <table id="example4" class="table table-hover table-bordered table-striped">
                 <thead class="bg-primary text-white table-dark">
                     <tr>
                         <th>

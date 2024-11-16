@@ -338,4 +338,79 @@ class RatiosController
         $result = $query->fetch(PDO::FETCH_ASSOC);
         return $result ? $result['patrimonio_total'] : 0;
     }
+    // Función para guardar los ratios en la base de datos
+    public function guardarRatiosPorAno($id_empresa, $anio, $ratios)
+    {
+        // Verificar si los valores en $ratios son válidos (números o null)
+        foreach ($ratios as $key => $value) {
+            if (is_array($value)) {
+                throw new Exception("El valor de $key en ratios no puede ser un array");
+            }
+        }
+
+        // SQL para verificar si ya existen registros para el año y la empresa
+        $sqlSelect = "SELECT * FROM ratios_financieros WHERE id_empresa = :id_empresa AND anio = :anio";
+        $querySelect = $this->pdo->prepare($sqlSelect);
+        $querySelect->execute([':id_empresa' => $id_empresa, ':anio' => $anio]);
+        $existe = $querySelect->fetch();
+
+        if ($existe) {
+            // Actualiza los ratios existentes
+            $sqlUpdate = "UPDATE ratios_financieros SET 
+                        liquidez_corriente = :liquidez_corriente,
+                        prueba_acida = :prueba_acida,
+                        capital_trabajo = :capital_trabajo,
+                        razon_capital_trabajo = :razon_capital_trabajo,
+                        grado_endeudamiento = :grado_endeudamiento,
+                        grado_propiedad = :grado_propiedad,
+                        razon_endeudamiento_patrimonial = :razon_endeudamiento_patrimonial,
+                        roa = :roa,
+                        roe = :roe,
+                        margen_neto = :margen_neto,
+                        indice_eficiencia_operativa = :indice_eficiencia_operativa,
+                        updated_at = NOW()
+                    WHERE id_empresa = :id_empresa AND anio = :anio";
+            $queryUpdate = $this->pdo->prepare($sqlUpdate);
+            $queryUpdate->execute(array_merge([':id_empresa' => $id_empresa, ':anio' => $anio], $ratios));
+        } else {
+            // Inserta nuevos ratios
+            $sqlInsert = "INSERT INTO ratios_financieros (id_empresa, anio, liquidez_corriente, prueba_acida, capital_trabajo, razon_capital_trabajo, grado_endeudamiento, grado_propiedad, razon_endeudamiento_patrimonial, roa, roe, margen_neto, indice_eficiencia_operativa, created_at) 
+                      VALUES (:id_empresa, :anio, :liquidez_corriente, :prueba_acida, :capital_trabajo, :razon_capital_trabajo, :grado_endeudamiento, :grado_propiedad, :razon_endeudamiento_patrimonial, :roa, :roe, :margen_neto, :indice_eficiencia_operativa, NOW())";
+            $queryInsert = $this->pdo->prepare($sqlInsert);
+            $queryInsert->execute(array_merge([':id_empresa' => $id_empresa, ':anio' => $anio], $ratios));
+        }
+    }
+    // Función para calcular y guardar todos los ratios para todos los años
+    public function calcularYGuardarRatiosPorAno($id_empresa)
+    {
+        // Calcula todos los ratios
+        $liquidezCorriente = $this->calcularLiquidezCorrientePorAno($id_empresa);
+        $pruebaAcida = $this->calcularPruebaAcidaPorAno($id_empresa);
+        $capitalTrabajo = $this->calcularCapitalTrabajoPorAno($id_empresa);
+        $razonCapitalTrabajo = $this->calcularRazonCapitalTrabajoPorAno($id_empresa);
+        $gradoEndeudamiento = $this->calcularGradoEndeudamientoPorAno($id_empresa);
+        $gradoPropiedad = $this->calcularGradoPropiedadPorAno($id_empresa);
+        $razonEndeudamientoPatrimonial = $this->calcularRazonEndeudamientoPatrimonialPorAno($id_empresa);
+        $utilidades = $this->calcularUtilidadesPorAno($id_empresa);
+
+        // Calcula ratios adicionales: ROA, ROE, Margen Neto, Índice de Eficiencia Operativa
+        foreach ($utilidades as $anio => $data) {
+            $ratios = [
+                'liquidez_corriente' => $liquidezCorriente[$anio]['liquidez_corriente'] ?? null,
+                'prueba_acida' => $pruebaAcida[$anio]['prueba_acida'] ?? null,
+                'capital_trabajo' => $capitalTrabajo[$anio]['capital_trabajo'] ?? null,
+                'razon_capital_trabajo' => $razonCapitalTrabajo[$anio]['razon_capital_trabajo'] ?? null,
+                'grado_endeudamiento' => $gradoEndeudamiento[$anio]['grado_endeudamiento'] ?? null,
+                'grado_propiedad' => $gradoPropiedad[$anio]['grado_propiedad'] ?? null,
+                'razon_endeudamiento_patrimonial' => $razonEndeudamientoPatrimonial[$anio]['razon_endeudamiento_patrimonial'] ?? null,
+                'roa' => isset($data['utilidad_neta']) && $this->obtenerActivosTotalesPorAno($id_empresa, $anio) > 0 ? $data['utilidad_neta'] / $this->obtenerActivosTotalesPorAno($id_empresa, $anio) : null,
+                'roe' => isset($data['utilidad_neta']) && $this->obtenerPatrimonioTotalPorAno($id_empresa, $anio) > 0 ? $data['utilidad_neta'] / $this->obtenerPatrimonioTotalPorAno($id_empresa, $anio) : null,
+                'margen_neto' => isset($data['ingresos_operacion']) && $data['ingresos_operacion'] > 0 ? $data['utilidad_neta'] / $data['ingresos_operacion'] : null,
+                'indice_eficiencia_operativa' => isset($data['ingresos_operacion']) && $data['ingresos_operacion'] > 0 ? $data['costos_gastos_operacion'] / $data['ingresos_operacion'] : null,
+            ];
+
+            // Guarda los ratios para el año actual
+            $this->guardarRatiosPorAno($id_empresa, $anio, $ratios);
+        }
+    }
 }
