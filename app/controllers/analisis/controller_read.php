@@ -23,3 +23,7 @@ array_pop($anio_1);
 
 $anio_2 = $anios;
 array_shift($anio_2);
+
+//obtener el año inicial y final
+$anio_min = min(array_column($anios, 'anio'));
+$anio_max = max(array_column($anios, 'anio'));
