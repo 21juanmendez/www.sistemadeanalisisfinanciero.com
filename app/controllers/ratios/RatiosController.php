@@ -7,6 +7,44 @@ class RatiosController
     {
         $this->pdo = $pdo;
     }
+
+    //funcion para obtener los ratios promedio de la industria
+    public function obtenerRatiosPromedioIndustria($id_empresa)
+    {
+        $indicadoresFinancieros = [
+            "Capital de Trabajo",
+            "Grado de Endeudamiento",
+            "Grado de Propiedad",
+            "Margen Neto",
+            "Prueba Ácida (Razón Rápida)",
+            "Razón de Capital de Trabajo",
+            "Razón de Circulante (Liquidez Corriente)",
+            "Razón de Endeudamiento Patrimonial",
+            "Rentabilidad sobre Activos (ROA)",
+            "Rentabilidad sobre Patrimonio (ROE)",
+            "Índice de Eficiencia Operativa"
+        ];
+        
+        $promedios = [];
+        $sql = "SELECT ri.nombre_ratio_industria, ri.promedio from empresa em
+            INNER JOIN ratios_industrias ri ON em.id_tipoEmpresa = ri.id_tipoEmpresa
+            WHERE em.id_empresa = $id_empresa ORDER BY ri.nombre_ratio_industria";
+        $statement = $this->pdo->prepare($sql);
+        $statement->execute();
+
+        //obtener los promedios de los ratios
+        $ratios_promedio = $statement->fetchAll();
+
+        foreach ($ratios_promedio as $ratio) {
+            //si el nombre de ratio no esta en el array de indicadores financieros, poner N/A
+            if (!in_array($ratio['nombre_ratio_industria'], $indicadoresFinancieros)) {
+                $promedios[$ratio['nombre_ratio_industria']] = 'N/A';
+            } else {
+                $promedios[$ratio['nombre_ratio_industria']] = $ratio['promedio'];
+            }
+        }
+        return $promedios;
+    }
     //Función para calcular la Razón de Circulante
     public function calcularLiquidezCorrientePorAno($id_empresa)
     {
