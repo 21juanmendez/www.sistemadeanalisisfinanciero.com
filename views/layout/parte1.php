@@ -25,7 +25,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <title style=" text-align: center;"> Administrador</title>
     <?php
     } else { ?>
-        <link rel="icon" type="image/png" href="<?php echo $URL ?>/public/imagenes/gerente.jpg">
+        <link rel="icon" type="image/png" href="<?php echo $URL ?>/public/imagenes/gerente.png">
         <title style=" text-align: center;"> Gerente</title>
     <?php
     }
