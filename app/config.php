@@ -27,6 +27,6 @@ date_default_timezone_set('America/El_Salvador');
 $fyh_creacion = date('Y-m-d H:i:s');
 $fyh_actualizacion = date('Y-m-d H:i:s');
 
-$URL = "http://www-sistemadeanalisisfinanciero-com.onrender.com";
-$VIEWS = "http://www-sistemadeanalisisfinanciero-com.onrender.com/views";
+$URL = "https://www-sistemadeanalisisfinanciero-com.onrender.com";
+$VIEWS = "https://www-sistemadeanalisisfinanciero-com.onrender.com/views";
 
