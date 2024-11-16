@@ -1,5 +1,5 @@
 <?php
-include($_SERVER['DOCUMENT_ROOT'] . '/www.sistemadeanalisisfinanciero.com/app/config.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/www-sistemadeanalisisfinanciero-com.onrender.com/app/config.php');
 session_start();
 //si no existe la session de admin te redirige al login, lo que no se es cuando existan las 2
 if (!isset($_SESSION['admin']) && !isset($_SESSION['gerente'])) {
