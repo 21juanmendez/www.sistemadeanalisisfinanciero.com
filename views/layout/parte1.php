@@ -19,8 +19,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" href="<?php echo $URL ?>/public/templates/dist/img/AdminLTELogo.png"">
-    <title style=" text-align: center;"> Administrador</title>
+    <?php
+    if (isset($_SESSION['admin'])) { ?>
+        <link rel="icon" type="image/png" href="<?php echo $URL ?>/public/templates/dist/img/AdminLTELogo.png">
+        <title style=" text-align: center;"> Administrador</title>
+    <?php
+    } else { ?>
+        <link rel="icon" type="image/png" href="<?php echo $URL ?>/public/imagenes/gerente.jpg">
+        <title style=" text-align: center;"> Gerente</title>
+    <?php
+    }
+    ?>
     <!-- Toastr -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
