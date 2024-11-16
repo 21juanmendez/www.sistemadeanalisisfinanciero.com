@@ -76,9 +76,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="<?php echo $VIEWS ?>/usuarios/" class="brand-link">
-                <img src="<?php echo $URL ?>/public/templates/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light"><?php echo $_SESSION['rol']; ?></span>
+            <a class="brand-link">
+                <?php
+                if (isset($_SESSION['admin'])) { ?>
+                    <img src="<?php echo $URL ?>/public/templates/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                    <span class="brand-text font-weight-light"><?php echo $_SESSION['rol']; ?></span>
+                <?php
+                } else { ?>
+                    <img src="<?php echo $URL ?>/public/imagenes/gerente.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                    <span class="brand-text font-weight-light"><?php echo $_SESSION['rol']; ?></span>
+                <?php
+                }
+                ?>
             </a>
 
 
@@ -140,6 +149,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <a href="<?php echo $VIEWS ?>/empresas" class="nav-link active">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Listado de Empresas</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="<?php echo $VIEWS ?>/ratios_industria" class="nav-link active">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Ratios de la Industria</p>
                                     </a>
                                 </li>
                             </ul>

@@ -36,11 +36,11 @@ $i=0;//centinela para el id de la empresa
         <?php endforeach; ?>
     </div>
 </div>
-
+<!--
 <div class="container">
     <canvas id="myChart" width="500" height="150"></canvas>
 </div>
-
+-->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
