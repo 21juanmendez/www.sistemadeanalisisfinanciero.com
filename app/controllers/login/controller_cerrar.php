@@ -11,8 +11,8 @@ if (isset($_GET['type'])) {
         $_SESSION['title'] = 'Correcto';
         $_SESSION['mensaje'] = 'Sesión cerrada correctamente';
         $_SESSION['icono'] = 'success';
-    } elseif ($type == 'cliente' && isset($_SESSION['cliente'])) {
-        unset($_SESSION['cliente']);
+    } elseif ($type == 'gerente' && isset($_SESSION['gerente'])) {
+        unset($_SESSION['gerente']);
         $_SESSION['title'] = 'Correcto';
         $_SESSION['mensaje'] = 'Sesión cerrada correctamente';
         $_SESSION['icono'] = 'success';

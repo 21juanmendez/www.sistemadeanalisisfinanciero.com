@@ -2,10 +2,10 @@
 include($_SERVER['DOCUMENT_ROOT'] . '/www.sistemadeanalisisfinanciero.com/app/config.php');
 session_start();
 //si no existe la session de admin te redirige al login, lo que no se es cuando existan las 2
-if (!isset($_SESSION['admin'])) {
+if (!isset($_SESSION['admin']) && !isset($_SESSION['gerente'])) {
     $_SESSION['icono'] = 'error';
     $_SESSION['title'] = 'Error';
-    $_SESSION['mensaje_permiso'] = 'No tienes los permisos para entrar en modo administrador';
+    $_SESSION['mensaje_permiso'] = 'No tienes los permisos necesarios';
     header('Location:' . $URL . '/');
 }
 ?>
@@ -89,9 +89,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
 
                     <div class="info">
-                    <span class="d-block text-white">Usuario: <b><?php echo $_SESSION['admin']; ?></b> </span>
+                        <?php
+                        if (isset($_SESSION['admin'])) { ?>
+                            <span class="d-block text-white">Usuario: <b><?php echo $_SESSION['admin']; ?></b> </span>
+                        <?php
+                        } else { ?>
+                            <span class="d-block text-white">Usuario: <b><?php echo $_SESSION['gerente']; ?></b> </span>
+                        <?php
+                        }
+                        ?>
                     </div>
-                   
+
                 </div>
 
                 <!-- Sidebar Menu -->
@@ -136,10 +144,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </li>
 
                         <li class="nav-item">
-                            <a href="<?php echo $URL ?>/app/controllers/login/controller_cerrar.php?type=admin" class="nav-link active" style="background-color: crimson;">
-                                <i class="nav-icon fas fa-sign-out-alt"></i>
-                                <p>Cerrar sesion</p>
-                            </a>
+                            <?php
+                            if (isset($_SESSION['admin'])) { ?>
+                                <a href="<?php echo $URL ?>/app/controllers/login/controller_cerrar.php?type=admin" class="nav-link active" style="background-color: crimson;">
+                                    <i class="nav-icon fas fa-sign-out-alt"></i>
+                                    <p>Cerrar sesion</p>
+                                </a>
+                            <?php
+                            } else { ?>
+                                <a href="<?php echo $URL ?>/app/controllers/login/controller_cerrar.php?type=gerente" class="nav-link active" style="background-color: crimson;">
+                                    <i class="nav-icon fas fa-sign-out-alt"></i>
+                                    <p>Cerrar sesion</p>
+                                </a>
+                            <?php
+                            }
+                            ?>
                         </li>
 
                     </ul>

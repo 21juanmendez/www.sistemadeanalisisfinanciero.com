@@ -33,9 +33,14 @@ $result_cuentas = $query_cuentas->fetchAll(PDO::FETCH_ASSOC);
                     <a href="../empresas/opciones.php?id_empresa=<?php echo $id_empresa ?>" class="btn btn-secondary">
                         <i class="bi bi-arrow-left"></i> <b>Regresar</b>
                     </a>
-                    <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registrarEstadoFinancieroModal">
-                        <i class="bi bi-plus-lg"></i> <b>Crear Estado Financiero</b>
-                    </a>
+                    <?php
+                    if (isset($_SESSION['admin'])) { ?>
+                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registrarEstadoFinancieroModal">
+                            <i class="bi bi-plus-lg"></i> <b>Crear Estado Financiero</b>
+                        </a>
+                    <?php
+                    }
+                    ?>
 
                     <br><br>
                     <div class="row">
@@ -74,110 +79,123 @@ $result_cuentas = $query_cuentas->fetchAll(PDO::FETCH_ASSOC);
                                             </td>
                                             <td>
                                                 <center>
-                                                    <!-- Botón en la tabla para abrir el modal y pasar id_estado, tipo_estado y anio -->
-                                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarCuentaModal"
-                                                        onclick="setEstadoId(<?php echo $estado['id_estado']; ?>, '<?php echo $estado['anio']; ?>', '<?php echo $estado['tipo_estado']; ?>')">
-                                                        <i class="bi bi-plus"></i> Agregar
-                                                    </button>
+                                                    <?php
+                                                    if (isset($_SESSION['admin'])) { ?>
+                                                        <!-- Botón en la tabla para abrir el modal y pasar id_estado, tipo_estado y anio -->
+                                                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarCuentaModal"
+                                                            onclick="setEstadoId(<?php echo $estado['id_estado']; ?>, '<?php echo $estado['anio']; ?>', '<?php echo $estado['tipo_estado']; ?>')">
+                                                            <i class="bi bi-plus"></i> Agregar
+                                                        </button>
 
-                                                    <script>
-                                                        function setEstadoId(idEstado, anio, tipoEstado) {
-                                                            // Asigna el id_estado y el año al modal
-                                                            document.getElementById('id_estado').value = idEstado;
-                                                            document.getElementById('anioEstado').innerText = anio; // Asigna el año en el lugar correcto del modal
+                                                        <script>
+                                                            function setEstadoId(idEstado, anio, tipoEstado) {
+                                                                // Asigna el id_estado y el año al modal
+                                                                document.getElementById('id_estado').value = idEstado;
+                                                                document.getElementById('anioEstado').innerText = anio; // Asigna el año en el lugar correcto del modal
 
-                                                            // Muestra u oculta el campo "Tipo de Movimiento" según el tipo de estado
-                                                            const tipoMovimientoContainer = document.getElementById('tipoMovimientoContainer');
-                                                            if (tipoEstado === 'Estado de Resultados') {
-                                                                tipoMovimientoContainer.style.display = 'none';
-                                                            } else {
-                                                                tipoMovimientoContainer.style.display = 'block';
+                                                                // Muestra u oculta el campo "Tipo de Movimiento" según el tipo de estado
+                                                                const tipoMovimientoContainer = document.getElementById('tipoMovimientoContainer');
+                                                                if (tipoEstado === 'Estado de Resultados') {
+                                                                    tipoMovimientoContainer.style.display = 'none';
+                                                                } else {
+                                                                    tipoMovimientoContainer.style.display = 'block';
+                                                                }
                                                             }
-                                                        }
-                                                    </script>
+                                                        </script>
 
-                                                    <a href="<?php echo $VIEWS; ?>/estados/show.php?id_estado=<?php echo urlencode($estado['id_estado']); ?>
+                                                        <a href="<?php echo $VIEWS; ?>/estados/show.php?id_estado=<?php echo urlencode($estado['id_estado']); ?>
                                                         &tipo_estado=<?php echo urlencode($estado['tipo_estado']); ?>
                                                         &id_empresa=<?php echo urlencode($id_empresa); ?>"
-                                                        class="btn btn-info">
-                                                        <i class="bi bi-eye-fill"></i> Detalles
-                                                    </a>
+                                                            class="btn btn-info">
+                                                            <i class="bi bi-eye-fill"></i> Detalles
+                                                        </a>
 
-                                                    <a href="#" class="btn btn-danger" onclick="confirmDeleteEstado(<?php echo $estado['id_estado']; ?>)">
-                                                        <i class="bi bi-trash-fill"></i> Eliminar
-                                                    </a>
+                                                        <a href="#" class="btn btn-danger" onclick="confirmDeleteEstado(<?php echo $estado['id_estado']; ?>)">
+                                                            <i class="bi bi-trash-fill"></i> Eliminar
+                                                        </a>
 
-                                                    <script>
-                                                        const swalWithBootstrapButtonsCuenta = Swal.mixin({
-                                                            customClass: {
-                                                                confirmButton: "btn btn-success me-2",
-                                                                cancelButton: "btn btn-danger"
-                                                            },
-                                                            buttonsStyling: false
-                                                        });
+                                                        <script>
+                                                            const swalWithBootstrapButtonsCuenta = Swal.mixin({
+                                                                customClass: {
+                                                                    confirmButton: "btn btn-success me-2",
+                                                                    cancelButton: "btn btn-danger"
+                                                                },
+                                                                buttonsStyling: false
+                                                            });
 
-                                                        function confirmDeleteEstado(id_estado) {
-                                                            swalWithBootstrapButtonsCuenta.fire({
-                                                                title: '¿Estás seguro?',
-                                                                text: "¡No podrás revertir esto!",
-                                                                icon: 'warning',
-                                                                showCancelButton: true,
-                                                                confirmButtonText: 'Sí, eliminarlo!',
-                                                                cancelButtonText: 'No, cancelar!',
-                                                                reverseButtons: false
-                                                            }).then((result) => {
-                                                                if (result.isConfirmed) {
-                                                                    // Realiza la solicitud de eliminación con fetch
-                                                                    fetch(`<?php echo $URL; ?>/app/controllers/estados/controller_delete.php?id_estado=${id_estado}`, {
-                                                                            method: 'GET'
-                                                                        })
-                                                                        .then(response => response.json())
-                                                                        .then(data => {
-                                                                            if (data.success) {
-                                                                                // Eliminar la fila de la tabla de inmediato sin esperar recarga
-                                                                                // Encuentra el botón que llamó a la función y usa su contexto para encontrar la fila a eliminar
-                                                                                const button = document.querySelector(`a[onclick="confirmDeleteEstado(${id_estado})"]`);
-                                                                                const row = button.closest("tr");
-                                                                                if (row) {
-                                                                                    row.remove(); // Remueve la fila de la tabla
+                                                            function confirmDeleteEstado(id_estado) {
+                                                                swalWithBootstrapButtonsCuenta.fire({
+                                                                    title: '¿Estás seguro?',
+                                                                    text: "¡No podrás revertir esto!",
+                                                                    icon: 'warning',
+                                                                    showCancelButton: true,
+                                                                    confirmButtonText: 'Sí, eliminarlo!',
+                                                                    cancelButtonText: 'No, cancelar!',
+                                                                    reverseButtons: false
+                                                                }).then((result) => {
+                                                                    if (result.isConfirmed) {
+                                                                        // Realiza la solicitud de eliminación con fetch
+                                                                        fetch(`<?php echo $URL; ?>/app/controllers/estados/controller_delete.php?id_estado=${id_estado}`, {
+                                                                                method: 'GET'
+                                                                            })
+                                                                            .then(response => response.json())
+                                                                            .then(data => {
+                                                                                if (data.success) {
+                                                                                    // Eliminar la fila de la tabla de inmediato sin esperar recarga
+                                                                                    // Encuentra el botón que llamó a la función y usa su contexto para encontrar la fila a eliminar
+                                                                                    const button = document.querySelector(`a[onclick="confirmDeleteEstado(${id_estado})"]`);
+                                                                                    const row = button.closest("tr");
+                                                                                    if (row) {
+                                                                                        row.remove(); // Remueve la fila de la tabla
+                                                                                    }
+
+                                                                                    // Mostrar mensaje de éxito
+                                                                                    swalWithBootstrapButtonsCuenta.fire({
+                                                                                        title: 'Eliminado',
+                                                                                        text: 'El estado financiero ha sido eliminado.',
+                                                                                        icon: 'success',
+                                                                                        timer: 2000,
+                                                                                        showConfirmButton: false
+                                                                                    });
+                                                                                } else {
+                                                                                    // Mostrar mensaje de error si ocurre algún problema
+                                                                                    swalWithBootstrapButtonsCuenta.fire({
+                                                                                        title: 'Error',
+                                                                                        text: data.message || 'Ocurrió un error al eliminar el estado financiero.',
+                                                                                        icon: 'error'
+                                                                                    });
                                                                                 }
-
-                                                                                // Mostrar mensaje de éxito
-                                                                                swalWithBootstrapButtonsCuenta.fire({
-                                                                                    title: 'Eliminado',
-                                                                                    text: 'El estado financiero ha sido eliminado.',
-                                                                                    icon: 'success',
-                                                                                    timer: 2000,
-                                                                                    showConfirmButton: false
-                                                                                });
-                                                                            } else {
-                                                                                // Mostrar mensaje de error si ocurre algún problema
+                                                                            })
+                                                                            .catch(error => {
+                                                                                // Manejo de error en la solicitud
                                                                                 swalWithBootstrapButtonsCuenta.fire({
                                                                                     title: 'Error',
-                                                                                    text: data.message || 'Ocurrió un error al eliminar el estado financiero.',
+                                                                                    text: 'Ocurrió un error en la solicitud al eliminar el estado financiero.',
                                                                                     icon: 'error'
                                                                                 });
-                                                                            }
-                                                                        })
-                                                                        .catch(error => {
-                                                                            // Manejo de error en la solicitud
-                                                                            swalWithBootstrapButtonsCuenta.fire({
-                                                                                title: 'Error',
-                                                                                text: 'Ocurrió un error en la solicitud al eliminar el estado financiero.',
-                                                                                icon: 'error'
+                                                                                console.error("Error en la solicitud:", error);
                                                                             });
-                                                                            console.error("Error en la solicitud:", error);
+                                                                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                                                        swalWithBootstrapButtonsCuenta.fire({
+                                                                            title: 'Cancelado',
+                                                                            text: 'El estado financiero está seguro :)',
+                                                                            icon: 'error'
                                                                         });
-                                                                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                                                    swalWithBootstrapButtonsCuenta.fire({
-                                                                        title: 'Cancelado',
-                                                                        text: 'El estado financiero está seguro :)',
-                                                                        icon: 'error'
-                                                                    });
-                                                                }
-                                                            });
-                                                        }
-                                                    </script>
+                                                                    }
+                                                                });
+                                                            }
+                                                        </script>
+                                                    <?php
+                                                    } else { ?>
+                                                        <a href="<?php echo $VIEWS; ?>/estados/show.php?id_estado=<?php echo urlencode($estado['id_estado']); ?>
+                                                        &tipo_estado=<?php echo urlencode($estado['tipo_estado']); ?>
+                                                        &id_empresa=<?php echo urlencode($id_empresa); ?>"
+                                                            class="btn btn-info">
+                                                            <i class="bi bi-eye-fill"></i> Detalles
+                                                        </a>
+                                                    <?php
+                                                    }
+                                                    ?>
                                                 </center>
                                             </td>
                                         </tr>

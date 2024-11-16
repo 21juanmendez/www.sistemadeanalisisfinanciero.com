@@ -36,13 +36,13 @@ if (empty($usuarios)) {
         $_SESSION['icono'] = 'success';
         header('Location: ' . $VIEWS . "/dashboard.php");
     
-    } elseif ($contraseña === $usuario['contraseña'] && ($usuario['id_rol'] == "CLIENTE" || $usuario['id_rol'] == "Cliente")) {
-        $_SESSION['cliente'] = $usuario['nombre_completo'];
+    } elseif ($contraseña === $usuario['contraseña'] && ($usuario['nombre'] == "GERENTE" || $usuario['nombre'] == "gerente")) {
+        $_SESSION['gerente'] = $usuario['nombre_usuario'];
+        $_SESSION['rol'] = $usuario['nombre'];
         $_SESSION['title']= "Bienvenido";
         $_SESSION['mensaje'] = $usuario['nombre_usuario'];
         $_SESSION['icono'] = 'success';
-        // header('Location: ' . $URL . "/index.php");
-        echo "SIRVE";
+        header('Location: ' . $VIEWS . "/dashboard.php");
     } else {
         // Contraseña incorrecta
         $_SESSION['title']= "Error";
