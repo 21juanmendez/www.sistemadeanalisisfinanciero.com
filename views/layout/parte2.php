@@ -49,6 +49,7 @@
     <script src="<?php echo $URL?>/public/js/datatable_empresas.js" ></script>
     <script src="<?php echo $URL?>/public/js/datatable_cuentas.js" ></script>
     <script src="<?php echo $URL?>/public/js/datatable_estados_financieros.js" ></script>
+    <script src="<?php echo $URL?>/public/js/datatable_ratios.js" ></script>
     <!--Cargar imagen al elegir-->
     <script src="<?php echo $URL?>/public/js/crear_producto_imagen.js" ></script>
     <!-- ChartJS -->
