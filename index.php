@@ -1,4 +1,5 @@
 <?php
+session_start();
 include('app/config.php');
 ?>
 <!DOCTYPE html>
@@ -61,7 +62,6 @@ include('app/config.php');
     </div>
     <?php
     //Tiene que ser despues del jquery y sweetalert2 en los demas esta arriba xq ya los tienen en el layout que se incluye
-    session_start();
     include('mensaje.php');
     include('mensaje_permiso.php');
     ?>
