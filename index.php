@@ -8,7 +8,7 @@ include('app/config.php');
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--Icono y Titulo de la Página-->
-    <link rel="icon" type="image/png" href="<?php echo $URL ?>/public/templates/dist/img/AdminLTELogo.png"">
+    <link rel="icon" type="image/png" href="<?php echo $URL ?>/public/imagenes/anf.png">
     <title>Login</title>
     <!-- ICONOS BOOOTSTRAP -->
     <link href=" <?php echo $URL ?>/public/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
