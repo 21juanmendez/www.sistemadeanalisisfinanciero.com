@@ -92,7 +92,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <span class="brand-text font-weight-light"><?php echo $_SESSION['rol']; ?></span>
                 <?php
                 } else { ?>
-                    <img src="<?php echo $URL ?>/public/imagenes/gerente.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                    <img src="<?php echo $URL ?>/public/imagenes/gerente.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                     <span class="brand-text font-weight-light"><?php echo $_SESSION['rol']; ?></span>
                 <?php
                 }
