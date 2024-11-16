@@ -37,6 +37,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- SWEET ALERT2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
 
     <!-- Google Font: Source Sans Pro -->

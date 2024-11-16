@@ -77,16 +77,22 @@ include('../../app/controllers/empresas/controller_read.php');
                     text: "¿A qué sección deseas ir?",
                     icon: 'question',
                     showCancelButton: true,
-                    confirmButtonText: 'Ratios Financieros',
+                    confirmButtonText: 'Mostrar gráficos',
                     cancelButtonText: 'Análisis Financiero',
+                    denyButtonText: 'Ratios Financieros',
+                    showCloseButton: true,
+                    showDenyButton: true,
                     reverseButtons: true
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Redirigir a la vista de Ratios Financieros
-                        window.location.href = "../ratios/index.php?id_empresa=<?php echo $id_empresa; ?>";
+                        // Redirigir a la vista de Gráficos
+                        window.location.href = "../analisis/graficos.php?id_empresa=<?php echo $id_empresa; ?>";
                     } else if (result.dismiss === Swal.DismissReason.cancel) {
                         // Redirigir a la vista de Análisis Financiero Completo
                         window.location.href = "../analisis/index.php?id_empresa=<?php echo $id_empresa; ?>";
+                    } else if (result.isDenied) {
+                        // Redirigir a la vista de Ratios Financieros
+                        window.location.href = "../ratios/index.php?id_empresa=<?php echo $id_empresa; ?>";
                     }
                 });
             }
