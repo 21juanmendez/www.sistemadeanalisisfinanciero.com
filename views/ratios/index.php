@@ -26,6 +26,8 @@ $gradoEndeudamiento = $ratiosController->calcularGradoEndeudamientoPorAno($id_em
 $gradoPropiedad = $ratiosController->calcularGradoPropiedadPorAno($id_empresa);
 $razonEndeudamientoPatrimonial = $ratiosController->calcularRazonEndeudamientoPatrimonialPorAno($id_empresa);
 $utilidades = $ratiosController->calcularUtilidadesPorAno($id_empresa); // Nueva función para utilidades
+$ratioPromedioIndustria = $ratiosController->obtenerRatiosPromedioIndustria($id_empresa); 
+
 
 // Calcula el ROA en base a la utilidad neta y los activos totales
 $roa = [];
@@ -56,18 +58,19 @@ foreach ($utilidades as $anio => $data) {
 // Organiza los datos para la tabla
 $anios = array_keys($liquidezCorriente);
 $ratiosData = [
-    'Razón de Circulante (Liquidez Corriente)' => array_column($liquidezCorriente, 'liquidez_corriente'),
-    'Prueba Ácida (Razón Rápida)' => array_column($pruebaAcida, 'prueba_acida'),
     'Capital de Trabajo' => array_column($capitalTrabajo, 'capital_trabajo'),
-    'Razón de Capital de Trabajo' => array_column($razonCapitalTrabajo, 'razon_capital_trabajo'),
     'Grado de Endeudamiento' => array_column($gradoEndeudamiento, 'grado_endeudamiento'),
     'Grado de Propiedad' => array_column($gradoPropiedad, 'grado_propiedad'),
+    'Margen Neto' => $margenNeto, // Añadir el nuevo ratio de Margen Neto
+    'Prueba Ácida (Razón Rápida)' => array_column($pruebaAcida, 'prueba_acida'),
+    'Razón de Capital de Trabajo' => array_column($razonCapitalTrabajo, 'razon_capital_trabajo'),
+    'Razón de Circulante (Liquidez Corriente)' => array_column($liquidezCorriente, 'liquidez_corriente'),
     'Razón de Endeudamiento Patrimonial' => array_column($razonEndeudamientoPatrimonial, 'razon_endeudamiento_patrimonial'),
     'Rentabilidad sobre Activos (ROA)' => $roa, // Añadir el nuevo ratio de ROA
     'Rentabilidad sobre Patrimonio (ROE)' => $roe, // Ratio de ROE
-    'Margen Neto' => $margenNeto, // Añadir el nuevo ratio de Margen Neto
     'Índice de Eficiencia Operativa' => $indiceEficienciaOperativa // Añadir el nuevo ratio de Índice de Eficiencia Operativa
 ];
+
 ?>
 
 <div class="container">
@@ -85,7 +88,7 @@ $ratiosData = [
                 <?php echo htmlspecialchars($nombre_empresa); ?>
             </h1>
         </div>
-        <div class="card-body">
+        <div class="card-body table-responsive">
             <!-- Tabla para mostrar los Ratios Financieros -->
             <table id="example4" class="table table-hover table-bordered table-striped">
                 <thead class="bg-primary text-white table-dark">
@@ -99,7 +102,7 @@ $ratiosData = [
                             </th>
                         <?php endforeach; ?>
                         <th>
-                            <center>Promedio</center>
+                            <center>Promedio de la industria</center>
                         </th>
                     </tr>
                 </thead>
@@ -107,7 +110,6 @@ $ratiosData = [
                     <?php
                     // Colores para filas importantes
                     $importantRowColor = "#d1ecf1"; // Color para filas importantes (ratios principales)
-
                     // Renderizar cada ratio en una fila
                     foreach ($ratiosData as $ratio => $valores): ?>
                         <tr style="background-color: <?php echo $importantRowColor; ?>;">
@@ -124,9 +126,7 @@ $ratiosData = [
                                 <center>
                                     <b>
                                         <?php
-                                        $filteredValues = array_filter($valores, fn($v) => $v !== null);
-                                        $promedio = count($filteredValues) > 0 ? array_sum($filteredValues) / count($filteredValues) : null;
-                                        echo is_null($promedio) ? 'N/A' : number_format($promedio, 4);
+                                        echo $ratioPromedioIndustria[$ratio] ?? 'N/A';
                                         ?>
                                     </b>
                                 </center>
