@@ -1,13 +1,16 @@
 <?php
+// Incluye el archivo de configuración con una ruta relativa
+include(__DIR__ . '/../../app/config.php');
+
+// Inicia la sesión
 session_start();
-define('ROOT_PATH', '/opt/render/project/src');
-include(ROOT_PATH . '/app/config.php');
 //si no existe la session de admin te redirige al login, lo que no se es cuando existan las 2
 if (!isset($_SESSION['admin']) && !isset($_SESSION['gerente'])) {
     $_SESSION['icono'] = 'error';
     $_SESSION['title'] = 'Error';
     $_SESSION['mensaje_permiso'] = 'No tienes los permisos necesarios';
     header('Location:' . $URL . '/');
+    exit;
 }
 ?>
 <!DOCTYPE html>
