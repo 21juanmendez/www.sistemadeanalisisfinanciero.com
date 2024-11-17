@@ -1,6 +1,7 @@
 <?php
 session_start();
-include('app/config.php');
+define('ROOT_PATH', '/opt/render/project/src');
+include(ROOT_PATH . '/app/config.php');
 //si no existe la session de admin te redirige al login, lo que no se es cuando existan las 2
 if (!isset($_SESSION['admin']) && !isset($_SESSION['gerente'])) {
     $_SESSION['icono'] = 'error';
