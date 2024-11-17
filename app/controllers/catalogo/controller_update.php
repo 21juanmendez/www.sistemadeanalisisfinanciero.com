@@ -6,7 +6,7 @@ session_start(); // Iniciar sesión para manejar mensajes de éxito o error
 // Validar y sanitizar los datos del formulario
 $id_empresa = filter_input(INPUT_POST, 'id_empresa', FILTER_VALIDATE_INT);
 $id_cuenta = filter_input(INPUT_POST, 'id_cuenta', FILTER_VALIDATE_INT);
-$nombre = filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_STRING);
+$nombre = htmlspecialchars(filter_input(INPUT_POST, 'nombre', FILTER_DEFAULT), ENT_QUOTES, 'UTF-8');
 $id_tipo = filter_input(INPUT_POST, 'id_tipo', FILTER_VALIDATE_INT);
 $id_clasificacion = filter_input(INPUT_POST, 'id_clasificacion', FILTER_VALIDATE_INT);
 $saldo = filter_input(INPUT_POST, 'saldo', FILTER_VALIDATE_FLOAT);
