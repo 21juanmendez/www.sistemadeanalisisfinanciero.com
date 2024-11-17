@@ -3,7 +3,7 @@ include('../layout/parte1.php');
 //para poder traer el id de la empresa y usarlo en el botn de regresar
 include('../../app/controllers/empresas/controller_read.php');
 $id_estado = filter_input(INPUT_GET, 'id_estado', FILTER_VALIDATE_INT);
-$tipo_estado = filter_input(INPUT_GET, 'tipo_estado', FILTER_SANITIZE_STRING);
+$tipo_estado = htmlspecialchars(filter_input(INPUT_GET, 'tipo_estado', FILTER_DEFAULT), ENT_QUOTES, 'UTF-8');
 
 // Verificar que el estado exista en la base de datos
 $sql = "SELECT * FROM estados_financieros WHERE id_estado = :id_estado";
