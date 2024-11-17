@@ -85,15 +85,15 @@ include('mensaje.php');
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Fecha y Hora de Actualización</label>
-                                    <p><?php echo htmlspecialchars($fyh_actualizacion); ?></p>
+                                    <p><?php echo htmlspecialchars($fyh_actualizacion ?? 'No disponible', ENT_QUOTES, 'UTF-8'); ?></p>
                                 </div>
                             </div>
-                        </div>
 
-                        <center>
-                            <button type="submit" class="btn btn-warning">Actualizar</button>
-                            <a href="index.php?id_empresa=<?php echo $id_empresa ?>" class="btn btn-secondary">Volver</a>
-                        </center>
+
+                            <center>
+                                <button type="submit" class="btn btn-warning">Actualizar</button>
+                                <a href="index.php?id_empresa=<?php echo $id_empresa ?>" class="btn btn-secondary">Volver</a>
+                            </center>
                     </form>
                 </div>
             </div>
