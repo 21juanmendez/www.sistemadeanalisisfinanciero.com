@@ -27,8 +27,7 @@ if (empty($usuarios)) {
     $usuario = $query->fetch(PDO::FETCH_ASSOC);
 
     session_start();
-    // Verificar la contraseña en texto plano
-    if ($contraseña === $usuario['contraseña'] && ($usuario['nombre'] == "ADMINISTRADOR" || $usuario['nombre'] == "Administrador")) {
+    if (password_verify($contraseña, $usuario['contraseña']) && ($usuario['nombre'] == "ADMINISTRADOR" || $usuario['nombre'] == "Administrador")) {
         $_SESSION['admin'] = $usuario['nombre_usuario'];
         $_SESSION['rol'] = $usuario['nombre'];
         $_SESSION['title']= "Bienvenido";
@@ -36,7 +35,7 @@ if (empty($usuarios)) {
         $_SESSION['icono'] = 'success';
         header('Location: ' . $VIEWS . "/dashboard.php");
     
-    } elseif ($contraseña === $usuario['contraseña'] && ($usuario['nombre'] == "GERENTE" || $usuario['nombre'] == "gerente")) {
+    } elseif (password_verify($contraseña, $usuario['contraseña']) && ($usuario['nombre'] == "GERENTE" || $usuario['nombre'] == "gerente")) {
         $_SESSION['gerente'] = $usuario['nombre_usuario'];
         $_SESSION['rol'] = $usuario['nombre'];
         $_SESSION['title']= "Bienvenido";
