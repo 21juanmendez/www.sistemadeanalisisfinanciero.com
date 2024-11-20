@@ -1,7 +1,7 @@
 
 $(function () {
     $("#example2").DataTable({
-        "pageLength": 5,
+        "pageLength": 10,
         "language": {
             "emptyTable": "No hay información",
             "info": "Mostrando _START_ a _END_ de _TOTAL_ Cuentas",
