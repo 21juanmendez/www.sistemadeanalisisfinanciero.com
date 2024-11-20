@@ -74,7 +74,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="<?php echo $VIEWS ?>/usuarios" class="nav-link">Dashboard</a>
+                    <a href="<?php echo $VIEWS ?>/dashboard.php" class="nav-link">Dashboard</a>
                 </li>
             </ul>
 
