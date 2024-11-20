@@ -28,6 +28,24 @@ include('../../app/controllers/analisis/controller_graficos.php');
                         <i class="bi bi-graph-up-arrow"></i>
                         Evolución de ratios financieros de <?php echo $anio_min ?> a <?php echo $anio_max ?>
                     </h3>
+
+                    <div class="d-flex justify-content-end align-items-center">
+                        <select id="ratio-select" class="form-select form-select-sm w-auto" onchange="updateChart()">
+                            <option value="11">Mostar todo</option>
+                            <option value="0">Prueba Ácida</option>
+                            <option value="1">Liquidez Corriente</option>
+                            <option value="2">Capital de Trabajo</option>
+                            <option value="3">Razón de Capital de Trabajo</option>
+                            <option value="4">Grado de Endeudamiento</option>
+                            <option value="5">Grado de Propiedad</option>
+                            <option value="6">Razón de Endeudamiento Patrimonial</option>
+                            <option value="7">ROA</option>
+                            <option value="8">ROE</option>
+                            <option value="9">Margen Neto</option>
+                            <option value="10">Índice de Eficiencia Operativa</option>
+                        </select>
+                    </div>
+
                 </div><!-- /.card-header -->
                 <div class="card-body" style="height: 500px; width: 100%;">
                     <canvas id="line-chart" style="height: 460px; width: 100%;"></canvas>
@@ -93,8 +111,8 @@ include('../../app/controllers/analisis/controller_graficos.php');
                 {
                     label: 'Capital de Trabajo',
                     data: [<?php echo $arry_grafico[3]; ?>],
-                    backgroundColor: 'rgba(54, 162, 235, 1)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(54, 16, 200, 1)',
+                    borderColor: 'rgba(54, 16, 200, 1)',
                     borderWidth: 2,
                     tension: 0.4,
                 },
@@ -130,7 +148,7 @@ include('../../app/controllers/analisis/controller_graficos.php');
                     borderWidth: 2,
                     tension: 0.4,
                 },
-                 {
+                {
                     label: 'ROA',
                     data: [<?php echo $arry_grafico[8]; ?>],
                     backgroundColor: 'rgba(255, 20, 86, 1)',
@@ -190,6 +208,23 @@ include('../../app/controllers/analisis/controller_graficos.php');
             }
         }
     });
+
+    function updateChart() {
+        var selectedRatio = document.getElementById('ratio-select').value;
+
+        if (selectedRatio == 11) {
+            myChart.data.datasets.forEach((dataset, index) => {
+                dataset.hidden = false;
+            });
+            myChart.update();
+            return;
+        }
+        
+        myChart.data.datasets.forEach((dataset, index) => {
+            dataset.hidden = index != selectedRatio;
+        });
+        myChart.update();
+    }
 </script>
 <?php
 include('../layout/parte2.php');
